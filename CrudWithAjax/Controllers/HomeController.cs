@@ -22,6 +22,12 @@ namespace CrudWithAjax.Controllers
             string msg = "Success";
             return Json(new { Message = msg, JsonRequestBehavior.AllowGet });
         }
+        public JsonResult getStudent(string id)
+        {
+            List<tblTask> students = new List<tblTask>();
+            students = db.tblTasks.ToList();
+            return Json(students, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
