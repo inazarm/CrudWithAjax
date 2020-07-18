@@ -2,6 +2,8 @@
     ViewBag.Title = "Home Page";
 }
 
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
@@ -67,3 +69,60 @@
         <tbody></tbody>
     </table>
 </div>
+<script type="text/javascript">
+    $(function () {
+        LoadData();
+        $("#btnSave").click(function () {
+            //alert("");
+            var std = {};
+            std.Name = $("#Student_Name").val();
+            std.Email = $("#Student_Email").val();
+            std.City = $("#Student_City").val();
+            std.Phone = $("#Student_Phone").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("/CreateStudent")',
+                data: '{std: ' + JSON.stringify(std) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    //alert("Data has been added successfully.");
+                    LoadData();
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+            return false;
+        });
+    });
+
+    function LoadData() {
+        $("#tblStudent tbody tr").remove();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("getStudent")',
+            dataType: 'json',
+            data: { id: '' },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                        + "<td class='prtoducttd'>" + item.Name + "</td>"
+                        + "<td class='prtoducttd'>" + item.Email + "</td>"
+                        + "<td class='prtoducttd'>" + item.City + "</td>"
+                        + "<td class='prtoducttd'>" + item.Phone + "</td>"
+                    + "</tr>";
+                    $('#tblStudent tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+</script>
