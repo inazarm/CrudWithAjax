@@ -26,5 +26,6 @@ namespace CrudWithAjax.Models
         }
     
         public virtual DbSet<tblTask> tblTasks { get; set; }
+        public virtual DbSet<student> students { get; set; }
     }
 }
