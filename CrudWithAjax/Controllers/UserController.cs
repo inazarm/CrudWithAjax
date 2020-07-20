@@ -18,20 +18,26 @@ namespace CrudWithAjax.Controllers
             return View();
         }
 
-        public JsonResult checkLogin(string username, string password)
+        public JsonResult checkLogin(string userEmail, string userPass)
         {
-            var user = db.students.Where(x => x.Email == username && x.Password == password).SingleOrDefault();
-            bool isLogged = true;
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.Email,false);
-                isLogged = true;
-            }
+            //var dataItem = db.students.Where(x => x.Email == userEmail && x.Password == userPass).SingleOrDefault();
+            //bool isLogged = true;
+            //if (dataItem != null)
+            //{
+            //    FormsAuthentication.SetAuthCookie(dataItem.Email,false);
+            //    isLogged = true;
+            //}
+            //else
+            //{
+            //    isLogged = false;
+            //}
+            //return Json(isLogged, JsonRequestBehavior.AllowGet);
+            var user = from u in db.students where u.Email == userEmail && u.Password == userPass select u;
+            //bool success = true;
+            if (user.Count() > 0)
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
             else
-            {
-                isLogged = false;
-            }
-            return Json(isLogged, JsonRequestBehavior.AllowGet);
+                return Json(new {Success=false },JsonRequestBehavior.AllowGet);
         }
         // GET: User/Details/5
         public ActionResult Details(int id)

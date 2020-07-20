@@ -1,32 +1,70 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<link href="~/Content/Style.css" rel="stylesheet" />
-<form action="/action_page.php" style="max-width:500px;margin:auto">
-    <link href="~/Content/Style.css" rel="stylesheet" />
-    <h2>Please Login</h2>
-    <div class="input-container">
-        <i class="fa fa-envelope icon"></i>
-        <input class="input-field" type="text" placeholder="Email" name="email" id="userEmail">
-    </div>
-
-    <div class="input-container">
-        <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" placeholder="Password" name="psw" id="userPass">
-    </div>
-
-    <div class="input-container">
-        <button type="submit" class="btn">Register</button>
-    </div>
-
-</form>
 <script>
-
+    $(document).ready(function () {
+        $('#savedata').click(function () {
+            var data = {
+                "userEmail": $("#userid").val(),
+                "userPass": $("#password").val()
+            };
+            $.ajax({
+                url: "/User/checkLogin",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.Success) {
+                      
+                        window.location.href = "@Url.Action("Index", "Home")";
+                     }
+                    else
+                        window.location.href = "@Url.Action("Index", "User")";
+                },
+                error: function () {
+                    console.log('Login Fail!!!');
+                }
+            });
+        });
+    });
 </script>
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-6col-md-offset-3">
+            <h2 class="text-center">Login to Your Account</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphiconglyphicon-user"></i></span>
+                            <input type="text" id="userid" class="form-control" placeholder="Username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphiconglyphicon-lock"></i></span>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button class="btn btn-warning form-control" type="submit" id="savedata"><i class="glyphiconglyphicon-log-in"></i>&nbsp;Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
