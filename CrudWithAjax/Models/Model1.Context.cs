@@ -25,7 +25,10 @@ namespace CrudWithAjax.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblTask> tblTasks { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<State> States { get; set; }
         public virtual DbSet<student> students { get; set; }
+        public virtual DbSet<tblTask> tblTasks { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
